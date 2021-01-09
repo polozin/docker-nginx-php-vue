@@ -33,8 +33,7 @@ class Facts {
             $.ajax({
                 url: this.URL_LOCAL,
                 method: "POST",
-                contentType: "application/json; charset=UTF-8",
-                data: 'type=facts&payload=' + JSON.stringify(payload),
+                data: 'type=facts&payload=' + JSON.stringify( payload),
                 success(result) {
                     resolve(result);
                 },

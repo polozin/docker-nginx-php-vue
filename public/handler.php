@@ -12,11 +12,12 @@ if($_GET && $_GET["type"]){
            break;
     }
 }
-elseif ($_POST && $_POST["type"]){
-    $type = htmlspecialchars($_GET["type"]);
+
+if ($_POST && $_POST["type"]){
+    $type = htmlspecialchars($_POST["type"]);
     switch ($type){
         case "facts":
-            $response = $catFacts->post(htmlspecialchars($_POST["payload"]));
+            $response = $catFacts->post($_POST["payload"]);
             break;
     }
 }

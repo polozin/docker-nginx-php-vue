@@ -3,7 +3,7 @@
 
 class CatFacts
 {
-    const DATA_PATH = 'facts.txt';
+    const DATA_PATH = '../app/data/facts.txt';
 
     public function get(): string{
         $arr = $this->loadData();
@@ -14,7 +14,7 @@ class CatFacts
     }
 
     public function post($strObject): string{
-        $arrFacts = json_decode($strObject);
+        $arrFacts = json_decode( ($strObject));
         foreach ($arrFacts as $fact){
             $fact->rating = intval($fact->rating) + 1;
         }

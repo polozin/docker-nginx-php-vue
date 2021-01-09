@@ -39,7 +39,9 @@
           </div>
         </div>
         <div class="details-footer">
-          <button type="button" class="btn" @click="save" >Save</button>
+          <transition name="fade">
+          <button v-if="showSaveButton" type="button" class="btn" @click="save">Save</button>
+          </transition>
         </div>
       </div>
     </div>
@@ -63,7 +65,8 @@ export default {
       listFacts: [],
       factsModel: undefined,
       listDetails: [],
-      indexer: 0
+      indexer: 0,
+      showSaveButton: false
     }
   },
   created() {
@@ -77,19 +80,33 @@ export default {
       }
       return 'Unknown user';
     },
-    async save(){
-     await this.factsModel.save(this.listDetails);
-     await this.loadFacts();
+    async save() {
+      await this.factsModel.save(this.listDetails);
+      await this.loadFacts();
     },
     hideDetails(index) {
       let [fact] = this.listDetails.splice(index, 1);
       this.listFacts.push(fact);
+      if(this.listDetails.length === 0){
+        this.showSaveButton = false;
+      }
+      else {
+        this.showSaveButton = true;
+      }
     },
     async showDetails(index) {
       let [fact] = this.listFacts.splice(index, 1);
-      const factDetails = await this.factsModel.fetchRandomFacts(fact._id);
+      let inDetails = this.listDetails.find((f) => f._id === fact._id);
+      if (inDetails) {
+        alert(fact.text + "\n already in list");
+        return;
+      }
+      let factDetails = fact;
+      if (fact.rating === undefined) {
+        factDetails = await this.factsModel.fetchRandomFacts(fact._id);
+        this.showSaveButton = true;
+      }
       if (factDetails) {
-        console.log(factDetails);
         factDetails.key = this.indexer++;
         factDetails.rating = factDetails.rating || 0
         this.listDetails.push(factDetails);
@@ -109,6 +126,7 @@ export default {
           obj.key = this.indexer++;
         }
         this.listDetails = [...localSavedFacts];
+        this.showSaveButton = false;
       }
     }
   }
@@ -116,6 +134,12 @@ export default {
 }
 </script>
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .8s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
 .list-item {
   display: inline-block;
   margin-right: 10px;
@@ -172,6 +196,7 @@ export default {
   margin: 10px;
   cursor: pointer;
 }
+
 .box-scroll {
   height: 70vh;
   overflow-y: auto;
@@ -194,12 +219,14 @@ export default {
   font-size: 16px;
   cursor: pointer;
 }
-.details-footer{
+
+.details-footer {
   display: flex;
   flex-direction: row-reverse;
   padding-top: 10px;
 }
-.btn{
+
+.btn {
   outline: none;
   color: #fff;
   background-color: #62a0ff;
