@@ -1,7 +1,7 @@
 <template>
   <div class="master">
     <div class="header">
-      <div class="header-title">Cat facts</div>
+      <div class="header-title">Cat Facts Bookmark</div>
     </div>
     <div class="content">
       <CatFacts :options="{count: $options.COUNT_FACTS}" />
@@ -32,15 +32,19 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=B612&display=swap');
+
 html, body {
   padding: 0;
   margin: 0;
   height: 100%;
   min-height: 100%;
+}
+body {
+  font-family: 'B612', sans-serif;
   font-size: 14px;
   color: #000;
 }
-
 .master {
   height: 100%;
   min-height: 100%;
@@ -51,20 +55,19 @@ html, body {
   flex-grow: 1;
 }
 .header {
-  background-color: lightgoldenrodyellow;
   color: #5c7f51;
   padding: 20px ;
+  border: solid 1px #777777;
 }
 .header-title{
   font-size: 30px;
   font-weight: 600;
 }
 .footer {
-  background-color: darkslategray;
-  color: azure;
   padding: 20px 0;
 }
 .footer-autor{
+  color: #5c7f51;
   text-align: center;
 }
 </style>
