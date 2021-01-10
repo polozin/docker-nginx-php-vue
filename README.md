@@ -2,7 +2,7 @@
 ###docker+nginx+php:frm+vuejs project
 The Docker setup for PHP applications using PHP8-FPM and Nginx described in http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php8-fpm
 
-Programs to using:
+Required pre-installing programs:
 * Docker Desktop
 * Node js
 * Git
